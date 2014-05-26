@@ -116,7 +116,7 @@ int main() {
 
 
 	delete game;
-	cout << "Côliss ca marche" << endl;
+	cout << "Ok un autre test" << endl;
 
 	return 0;
 }
