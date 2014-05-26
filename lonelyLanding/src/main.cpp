@@ -108,7 +108,6 @@ int main() {
 
 
 
-
 	// Fermer la fenêtre principale
 	glfwDestroyWindow(mainWindow);
 
@@ -117,7 +116,7 @@ int main() {
 
 
 	delete game;
-	cout << "Still Working" << endl;
+	cout << "Côliss ca marche" << endl;
 
 	return 0;
 }
