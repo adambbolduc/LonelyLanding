@@ -119,9 +119,8 @@ int main() {
 	// Fermer la bibliothèque GLFW
 	glfwTerminate();
 
-
+	cout << "Program ended correctly" << endl;
 	delete game;
-	cout << "Côliss ca marche" << endl;
 
 	return 0;
 }
