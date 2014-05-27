@@ -18,6 +18,8 @@
 #include "../eventsHandler/KeyManager.h"
 
 
+#include "../rendering/Shader.h"
+#include "../rendering/Mesh.h"
 
 #define WIDTH	800
 #define HEIGHT	600
@@ -90,8 +92,11 @@ int main() {
 
 	Game* game = new Game();
 
+	Shader test;
+	test.load("resources/shaders/shader.txt",GL_VERTEX_SHADER);
 
-
+	Mesh mesh;
+	mesh.load("resources/meshes/model.obj");
 
 	// Game Loop
 	while(!glfwWindowShouldClose(mainWindow)){

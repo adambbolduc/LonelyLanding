@@ -9,8 +9,13 @@
 #define SHADER_H_
 
 #include <GL/glew.h>
+#include <string>
 
 class Shader {
+
+public:
+	bool load(const char* path, GLenum shaderType);
+
 
 private:
 	GLuint m_id;

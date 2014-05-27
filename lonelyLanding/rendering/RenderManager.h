@@ -8,16 +8,17 @@
 #ifndef RENDERMANAGER_H_
 #define RENDERMANAGER_H_
 
-
+#include <vector>
 
 class RenderManager {
 private:
-	static std::vector<GLuint> shaderList;
+//	static std::vector<GLuint> shaderList;
 
 
 public:
 	static void init();
 	static void destroy();
+
 };
 
 #endif /* RENDERMANAGER_H_ */
