@@ -14,7 +14,7 @@
 class Shader {
 
 public:
-	bool load(const char* path, GLenum shaderType);
+	bool load(const char* path, GLenum type);
 
 
 private:

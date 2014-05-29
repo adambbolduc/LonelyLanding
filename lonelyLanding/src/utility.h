@@ -14,7 +14,6 @@ namespace util
 {
 
 void error_callback(int error,const char* description);
-bool initGLFW();
 char* LoadSource(const char* filename);
 
 

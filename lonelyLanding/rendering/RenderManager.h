@@ -8,16 +8,15 @@
 #ifndef RENDERMANAGER_H_
 #define RENDERMANAGER_H_
 
-#include <vector>
+#include <GL/glew.h>
 
 class RenderManager {
-private:
-//	static std::vector<GLuint> shaderList;
-
 
 public:
-	static void init();
-	static void destroy();
+	static bool init();
+	static void shutdown();
+
+private:
 
 };
 

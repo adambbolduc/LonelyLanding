@@ -9,14 +9,17 @@
 #include <iostream>
 
 
-
 KeyManager::KeyManager(){
 	m_keyActivated = std::set<int>();
 }
 
+bool KeyManager::init(){
+	m_keyActivated.clear();
+	return true;
+}
+
 void KeyManager::keyPressed(int key){
 	m_keyActivated.insert(key);
-
 }
 
 void KeyManager::keyReleased(int key){
@@ -43,5 +46,4 @@ void KeyManager::printKeyActivated() const{
 		std::cout << *it++ << std::endl;
 	}
 }
-
 

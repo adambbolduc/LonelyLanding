@@ -12,14 +12,19 @@
 
 
 #include <iostream>
-#include "utility.h"
-#include "Game.h"
 #include "../eventsHandler/InputManager.h"
 #include "../eventsHandler/KeyManager.h"
 
-
+#include "../eventsHandler/WindowManager.h"
+#include "../rendering/RenderManager.h"
 #include "../rendering/Shader.h"
 #include "../rendering/Mesh.h"
+#include "../rendering/GraphicManager.h"
+
+#include <windows.h>
+
+
+
 
 #define WIDTH	800
 #define HEIGHT	600
@@ -34,93 +39,42 @@ using namespace std;
 using namespace util;
 
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods){
-	if( action == GLFW_PRESS ){
-		InputManager::keyPressed(key);
-		if( key == GLFW_KEY_ESCAPE)
-			glfwSetWindowShouldClose(window,GL_TRUE);
-	}
-	else if ( action == GLFW_RELEASE ){
-		InputManager::keyReleased(key);
-	}
-}
-
-void mouseButton_callback(GLFWwindow* window, int button, int action, int mods){
-	if( action == GLFW_PRESS ){
-		InputManager::buttonClicked(button);
-	}
-	else if ( action == GLFW_RELEASE ){
-		InputManager::buttonReleased(button);
-	}
-}
 
 int main() {
-	util::initGLFW();
-
-	GLFWwindow* mainWindow;
-
-	mainWindow = glfwCreateWindow(WIDTH,HEIGHT,"Lonely Landing", NULL, NULL);
-
-	if(mainWindow == NULL){
-		std::cerr << "Failed to create window" ;
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(mainWindow);
-	glfwSwapInterval(1);
-	glfwSetKeyCallback(mainWindow,key_callback);
-	glfwSetMouseButtonCallback(mainWindow,mouseButton_callback);
-	// Initialisation de la bibliothèque GLEW ( OpenGL Extension Wrangler )
-
-	GLenum err = glewInit();
-	if ( err != GLEW_OK){
-		return -1;
-	}
 
 
-	if(
-	   !(GLEW_ARB_shading_language_420pack ||
-		 GLEW_ARB_shader_objects ||
-		 GLEW_ARB_vertex_shader ||
-		 GLEW_ARB_fragment_shader)
-	){
-		std::cerr << "Cannot use extensions" ;
-		return -1;
+	// Principalement l'initialisation de glfw
+	GraphicManager::init();
+	// Principalement l'initialisation de glew
+	RenderManager::init();
+
+	InputManager::init();
+
+	// Création de la fenêtre a l'aide de glfw
+	WindowManager::createWindow(WIDTH,HEIGHT);
+	WindowManager::setKeyCallback(InputManager::key_callback);
+	WindowManager::setMouseButtonCallback(InputManager::mouseButton_callback);
+
+
+	// engine loop
+	while(!WindowManager::windowShouldClose()){
+
+		InputManager::pollEvents();
+		WindowManager::swapBuffer();
+
+
+
+		while(!InputManager::noEvent()){
+			(InputManager::getNextEvent())->printEvent();
+
+		}
+		Sleep(1000/60);
+
 	}
 
-
-
-	Game* game = new Game();
-
-	Shader test;
-	test.load("resources/shaders/shader.txt",GL_VERTEX_SHADER);
-
-	Mesh mesh;
-	mesh.load("resources/meshes/model.obj");
-
-	// Game Loop
-	while(!glfwWindowShouldClose(mainWindow)){
-
-		game->update();
-		game->render();
-
-		glfwPollEvents();
-		glfwSwapBuffers(mainWindow);
-	}
-
-
-
-
-
-
-	// Fermer la fenêtre principale
-	glfwDestroyWindow(mainWindow);
-
-	// Fermer la bibliothèque GLFW
-	glfwTerminate();
-
+	WindowManager::destroyWindow();
+	RenderManager::shutdown();
 	cout << "Program ended correctly" << endl;
-	delete game;
 
 	return 0;
 }

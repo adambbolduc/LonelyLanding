@@ -18,19 +18,6 @@ void util::error_callback(int error,const char* description){
 	std::cerr << description ;
 }
 
-
-bool util::initGLFW(){
-
-	glfwSetErrorCallback(util::error_callback);
-	if(!glfwInit()){
-		return false;
-	}
-
-
-
-	return true;
-}
-
 char* util::LoadSource(const char* filename){
 	ifstream file;
 	char* src;

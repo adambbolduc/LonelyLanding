@@ -12,7 +12,6 @@
 
 #include <set>
 
-
 class EventManager;
 
 class KeyManager{
@@ -20,11 +19,11 @@ class KeyManager{
 
 private:
 	KeyManager();
+	bool init();
 	void keyPressed(int key);
 	void keyReleased(int key);
 	KeyManager& operator=(const KeyManager &km2);
 	void printKeyActivated() const;
-
 
 	std::set<int> m_keyActivated;
 };

@@ -15,6 +15,7 @@ class MouseManager {
 
 private:
 	MouseManager();
+	bool init();
 	void buttonClicked(int button);
 	void buttonReleased(int button);
 	MouseManager& operator=(const MouseManager &mm2);

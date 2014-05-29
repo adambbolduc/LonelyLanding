@@ -12,6 +12,11 @@ MouseManager::MouseManager(){
 	m_buttonActivated = std::set<int>();
 }
 
+bool MouseManager::init(){
+	m_buttonActivated.clear();
+	return true;
+}
+
 void MouseManager::buttonClicked(int button){
 	m_buttonActivated.insert(button);
 }

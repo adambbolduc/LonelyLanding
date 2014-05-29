@@ -11,9 +11,9 @@
 
 using namespace util;
 
-bool Shader::load(const char* path, GLenum shaderType){
+bool Shader::load(const char* path, GLenum type){
 
-	m_id = glCreateShader(shaderType);
+	m_id = glCreateShader(type);
 
 	const char* src = LoadSource(path);
 	glShaderSource(m_id, 1, &src, NULL);
