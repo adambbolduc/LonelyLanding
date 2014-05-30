@@ -42,7 +42,6 @@ using namespace util;
 
 int main() {
 
-
 	// Principalement l'initialisation de glfw
 	GraphicManager::init();
 	// Principalement l'initialisation de glew
@@ -55,6 +54,10 @@ int main() {
 	WindowManager::setKeyCallback(InputManager::key_callback);
 	WindowManager::setMouseButtonCallback(InputManager::mouseButton_callback);
 
+
+	Mesh altair;
+
+	altair.load("resources/meshes/suzanne.obj");
 
 	// engine loop
 	while(!WindowManager::windowShouldClose()){

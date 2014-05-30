@@ -10,14 +10,17 @@
 
 #include <GL/glew.h>
 
+#include "Mesh.h"
+#include "Program.h"
+
 class RenderManager {
 
 public:
 	static bool init();
 	static void shutdown();
+	static void render(Mesh model, Program program);
 
 private:
-
 };
 
 #endif /* RENDERMANAGER_H_ */

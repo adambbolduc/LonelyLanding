@@ -10,6 +10,9 @@
 
 #include <iostream>
 
+
+
+
 bool RenderManager::init(){
 
 	// glew initialization
