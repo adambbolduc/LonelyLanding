@@ -43,21 +43,33 @@ using namespace util;
 int main() {
 
 	// Principalement l'initialisation de glfw
-	GraphicManager::init();
-	// Principalement l'initialisation de glew
-	RenderManager::init();
+	if(!GraphicManager::init()){
+		return -1;
+	}
 
-	InputManager::init();
+	if(!InputManager::init()){
+		return -1;
+	}
 
 	// Création de la fenêtre a l'aide de glfw
 	WindowManager::createWindow(WIDTH,HEIGHT);
 	WindowManager::setKeyCallback(InputManager::key_callback);
 	WindowManager::setMouseButtonCallback(InputManager::mouseButton_callback);
 
+	// Initialisation de glew
+	if(!RenderManager::init()){
+		return -1;
+	}
 
 	Mesh altair;
 
 	altair.load("resources/meshes/suzanne.obj");
+
+	Shader vertexShader(GL_VERTEX_SHADER);
+	vertexShader.load("resources/shaders/vertexShader.sh");
+	vertexShader.compile();
+	vertexShader.printCompileInfo();
+
 
 	// engine loop
 	while(!WindowManager::windowShouldClose()){

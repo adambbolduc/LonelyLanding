@@ -14,11 +14,15 @@
 class Shader {
 
 public:
-	bool load(const char* path, GLenum type);
-
+	Shader(GLenum type);
+	~Shader();
+	bool load(const char* path);
+	GLint compile();
+	void printCompileInfo() const;
 
 private:
 	GLuint m_id;
+	GLchar* compileInfo;
 
 };
 

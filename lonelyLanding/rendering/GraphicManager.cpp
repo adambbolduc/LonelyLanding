@@ -6,7 +6,7 @@
  */
 
 #include "GraphicManager.h"
-
+#include <iostream>
 
 
 
@@ -16,7 +16,6 @@
 bool GraphicManager::init(){
 	glfwSetErrorCallback(util::error_callback);
 	if(!glfwInit()){
-
 		return false;
 	}
 	return true;

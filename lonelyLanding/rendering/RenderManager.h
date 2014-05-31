@@ -20,7 +20,6 @@ public:
 	static void shutdown();
 	static void render(Mesh model, Program program);
 
-private:
 };
 
 #endif /* RENDERMANAGER_H_ */

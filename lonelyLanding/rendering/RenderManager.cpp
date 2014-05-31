@@ -18,6 +18,7 @@ bool RenderManager::init(){
 	// glew initialization
 	GLenum err = glewInit();
 	if ( err != GLEW_OK){
+		std::cerr << glewGetErrorString(err) << std::endl;
 		return false;
 	}
 
