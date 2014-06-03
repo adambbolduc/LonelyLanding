@@ -21,6 +21,7 @@ public:
 	InputEvent(int type);
 	virtual void printEvent() =0;
 	virtual ~InputEvent();
+	unsigned int getType() const;
 protected:
 	unsigned int m_type;
 
@@ -30,6 +31,8 @@ class InputKeyEvent : public InputEvent {
 public:
 	InputKeyEvent(int key, int action);
 	void printEvent();
+	int getKey() const;
+	int getAction() const;
 private:
 	int m_key;
 	int m_action;

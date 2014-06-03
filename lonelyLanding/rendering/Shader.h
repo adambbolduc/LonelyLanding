@@ -20,6 +20,8 @@ public:
 	GLint compile();
 	void printCompileInfo() const;
 
+	GLuint getID() const;
+
 private:
 	GLuint m_id;
 	GLchar* compileInfo;

@@ -13,6 +13,11 @@ InputEvent::InputEvent(int type) : m_type(type) {}
 //destryuctor
 InputEvent::~InputEvent() {}
 
+unsigned int InputEvent::getType() const{
+	return m_type;
+}
+
+
 //Key constructor
 InputKeyEvent::InputKeyEvent(int key, int action) : InputEvent(GE_KEY_EVENT), m_key(key), m_action(action) {}
 
@@ -26,6 +31,13 @@ InputMouseEvent::InputMouseEvent(int button, int action, double x, double y) :
 
 }
 
+int InputKeyEvent::getKey() const{
+	return m_key;
+}
+
+int InputKeyEvent::getAction() const{
+	return m_action;
+}
 void InputKeyEvent::printEvent(){
 	std::cout << m_type << "\t" << m_key << std::endl;
 }

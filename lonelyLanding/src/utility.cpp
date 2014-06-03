@@ -18,23 +18,17 @@ void util::error_callback(int error,const char* description){
 	std::cerr << description ;
 }
 
-char* util::LoadSource(const char* filename){
-	ifstream file;
-	char* src;
-	long size;
-
-	file.open(filename);
-	if(!file){
-		std::cout << "Can't open file " << filename << std::endl;
+std::string util::LoadSource(const char* filename){
+	std::ifstream ifile(filename);
+	std::string filetext;
+	if(!ifile){
+		std::cerr << "Cannot open file " << filename << std::endl;
 	}
-
-	file.seekg(0,file.end);
-	size = file.tellg();
-	file.seekg(0,file.beg);
-	src = new char[size + 1];
-	file.read(src,size);
-	file.close();
-	src[size] = '\0';
-	return src;
+	while( ifile.good() ) {
+		std::string line;
+		std::getline(ifile, line);
+		filetext.append(line + "\n");
+	}
+	return filetext;
 }
 

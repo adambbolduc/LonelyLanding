@@ -9,7 +9,6 @@
 #include "../src/utility.h"
 #include <iostream>
 
-using namespace util;
 
 
 
@@ -21,14 +20,14 @@ Shader::~Shader(){
 	if(!compileInfo){
 		delete compileInfo;
 	}
+
+	glDeleteShader(m_id);
 }
 
 bool Shader::load(const char* path){
-
-
-	const char* src = LoadSource(path);
+	std::string cpp_src = util::LoadSource(path);
+	const char* src = cpp_src.c_str();
 	glShaderSource(m_id, 1, &src, NULL);
-
 	return true;
 }
 
@@ -56,3 +55,6 @@ void Shader::printCompileInfo() const{
 	std::cout << compileInfo << std::endl;
 }
 
+GLuint Shader::getID() const{
+	return m_id;
+}

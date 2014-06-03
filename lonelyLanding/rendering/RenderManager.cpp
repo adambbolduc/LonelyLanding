@@ -33,6 +33,12 @@ bool RenderManager::init(){
 		std::cerr << "Cannot use extensions" ;
 		return false;
 	}
+
+	// Enable depth test
+	glEnable(GL_DEPTH_TEST);
+	// Accept fragment if it closer to the camera than the former one
+	glDepthFunc(GL_LESS);
+
 	return true;
 }
 

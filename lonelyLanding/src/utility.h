@@ -9,12 +9,13 @@
 #define UTILITY_H
 
 #include <GLFW/glfw3.h>
+#include <string>
 
 namespace util
 {
 
 void error_callback(int error,const char* description);
-char* LoadSource(const char* filename);
+std::string LoadSource(const char* filename);
 
 
 
