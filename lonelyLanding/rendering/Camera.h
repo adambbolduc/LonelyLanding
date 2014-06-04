@@ -17,14 +17,22 @@
 class Camera {
 public:
 	Camera();
-	void setView(const glm::vec3& eye, const glm::vec3& center, const glm::vec3& up);
-	void setProjection(float viewAngle,float ratio, float near, float far);
+
+	void setPos(const glm::vec3& position);
+	void setOrientation(float theta, float phi);
+	void setViewMatrix();
+	void setProjectionMatrix(float viewAngle,float ratio, float near, float far);
 	void translate(const glm::vec3& displacement);
-	void rotate(float theta, const glm::vec3& axis);
+	void move(const glm::vec3& displacement);
+	void rotate(float dTheta, float dPhi);
 	glm::mat4 getMatrix() const;
 private:
-	glm::mat4 viewMatrix;
-	glm::mat4 projection;
+	//position
+	glm::vec3 m_pos;
+	// orientation
+	float m_theta,m_phi;
+	glm::mat4 m_viewMatrix;
+	glm::mat4 m_projection;
 };
 
 #endif /* CAMERA_H_ */

@@ -50,7 +50,7 @@ int main() {
 
 	float x=0,y=0,z=3;
 	float dx=0,dy=0,dz=0;
-
+	float dP=0,dT=0;
 
 	// Principalement l'initialisation de glfw
 	if(!GraphicManager::init()){
@@ -96,7 +96,7 @@ int main() {
 
 
 	Camera camera;
-	camera.setProjection(1.22,800.0/600.0,0.1,100.0);
+	camera.setProjectionMatrix(1.22,800.0/600.0,0.1,100.0);
 
 	GLuint VertexArrayID;
 	glGenVertexArrays(1, &VertexArrayID);
@@ -143,7 +143,6 @@ int main() {
 	    -1.0f, 1.0f, 1.0f,
 	    1.0f,-1.0f, 1.0f
 	};
-
 	// This will identify our vertex buffer
 	GLuint vertexbuffer;
 
@@ -158,6 +157,8 @@ int main() {
 
 
 
+	Mesh test;
+	test.load("resources/meshes/model.obj");
 
 
 
@@ -211,11 +212,9 @@ int main() {
 
 
 
-	camera.setView(
-			glm::vec3(0,0,3),
-			glm::vec3(0,0,0),
-			glm::vec3(0,1,0)
-	);
+	camera.setPos(glm::vec3(-3,0,0));
+	camera.setOrientation(0,0);
+	camera.setViewMatrix();
 	// Model matrix : an identity matrix (model will be at the origin)
 	// Our ModelViewProjection : multiplication of our 3 matrices
 	glm::mat4 MVP;
@@ -229,20 +228,25 @@ int main() {
 	// in the "MVP" uniform
 	// For each model you render, since the MVP will be different (at least the M part)
 
+
 	InputEvent* event;
 	// engine loop
 	while(!WindowManager::windowShouldClose()){
 
+		// setting the camera
+		MVP = camera.getMatrix(); // Remember, matrix multiplication is the other way around
+		camera.move(glm::vec3(-dx,-dy,-dz));
+		camera.rotate(dT,dP);
+		camera.setViewMatrix();
 
 
 		glClear(GL_COLOR_BUFFER_BIT  | GL_DEPTH_BUFFER_BIT);
 
-		camera.translate(glm::vec3(-dx,-dy,-dz));
-		MVP = camera.getMatrix(); // Remember, matrix multiplication is the other way around
+
+		//drawing the cube
 		glUseProgram(program.getID());
 
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
-
 
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
@@ -256,11 +260,11 @@ int main() {
 		   (void*)0            // array buffer offset
 		);
 
-		// 2nd attribute buffer : colors
+		//2nd attribute buffer : colors
 		glEnableVertexAttribArray(1);
 		glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
 		glVertexAttribPointer(
-		    1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
+		   1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
 		    3,                                // size
 		    GL_FLOAT,                         // type
 		    GL_FALSE,                         // normalized?
@@ -271,10 +275,19 @@ int main() {
 
 
 		// Draw the triangle !
-		glDrawArrays(GL_TRIANGLES, 0, 12*3); // Starting from vertex 0; 3 vertices total -> 1 triangle
+
+
+		for(int i = 0 ; i < 12 ; i++){
+			glDrawArrays(GL_LINE_LOOP, 3*i, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
+		}
+
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(0);
 		glUseProgram(0);
+
+
+
+
 
 		InputManager::pollEvents();
 		WindowManager::swapBuffer();
@@ -288,20 +301,28 @@ int main() {
 				if( ((InputKeyEvent *) event)->getAction() == GE_KEY_PRESS ){
 					switch(key){
 					case 'A' :
-						cout << "La touche A a été touché" << endl;
-						dx -= 0.1;
+						dy -= 0.1;
 						break;
 					case 'W' :
-						cout << "La touche W a été touché" << endl;
-						dz -= 0.1;
+						dx -= 0.1;
 						break;
 					case 'D' :
-						cout << "La touche D a été touché" << endl;
-						dx += 0.1;
+						dy += 0.1;
 						break;
 					case 'S' :
-						cout << "La touche S a été touché" << endl;
-						dz += 0.1;
+						dx += 0.1;
+						break;
+					case GLFW_KEY_LEFT :
+						dP += 0.1;
+						break;
+					case GLFW_KEY_RIGHT :
+						dP -= 0.1;
+						break;
+					case GLFW_KEY_UP :
+						dT += 0.1;
+						break;
+					case GLFW_KEY_DOWN :
+						dT -= 0.1;
 						break;
 					default :
 						break;
@@ -310,20 +331,28 @@ int main() {
 				else if( ((InputKeyEvent *) event)->getAction() == GE_KEY_RELEASE ){
 					switch(key){
 					case 'A' :
-						cout << "La touche A a été relâché" << endl;
-						dx += 0.1;
+						dy += 0.1;
 						break;
 					case 'W' :
-						cout << "La touche W a été relâché" << endl;
-						dz += 0.1;
+						dx += 0.1;
 						break;
 					case 'D' :
-						cout << "La touche D a été relâché" << endl;
-						dx -= 0.1;
+						dy -= 0.1;
 						break;
 					case 'S' :
-						cout << "La touche S a été relâché" << endl;
-						dz -= 0.1;
+						dx -= 0.1;
+						break;
+					case GLFW_KEY_LEFT :
+						dP -= 0.1;
+						break;
+					case GLFW_KEY_RIGHT :
+						dP += 0.1;
+						break;
+					case GLFW_KEY_UP :
+						dT -= 0.1;
+						break;
+					case GLFW_KEY_DOWN :
+						dT += 0.1;
 						break;
 					default :
 						break;

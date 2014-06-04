@@ -18,11 +18,14 @@ public:
 	Mesh();
 	~Mesh();
 	void load(const char* path);
+
 private:
-	std::vector<glm::vec4> vertices;
+	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> textures;
 	std::vector<glm::vec3> normals;
 	std::vector<GLushort> elements;
+	GLuint vertexBuffer;
+	//GLuint colorBuffer;
 
 };
 

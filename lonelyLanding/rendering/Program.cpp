@@ -26,7 +26,6 @@ Program::~Program(){
 
 bool Program::attachShader(Shader shader){
 	glAttachShader(m_id,shader.getID());
-	std::cout << shader.getID() << std::endl;
 	return m_shaders.insert(shader.getID()).second;
 }
 
