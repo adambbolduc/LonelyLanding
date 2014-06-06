@@ -8,6 +8,8 @@
 #ifndef MESH_H_
 #define MESH_H_
 
+#include <gl/glew.h>
+
 #include <vector>
 #include <glm.hpp>
 #include <GLFW/glfw3.h>
@@ -18,13 +20,22 @@ public:
 	Mesh();
 	~Mesh();
 	void load(const char* path);
+	const float* getVertPtr() const;
+	GLuint getVertexBufferID() const;
+	unsigned int getNbFace() const;
 
 private:
-	std::vector<glm::vec3> vertices;
-	std::vector<glm::vec3> textures;
-	std::vector<glm::vec3> normals;
-	std::vector<GLushort> elements;
+	std::vector<float> m_vertices;
+	std::vector<float> m_textures;
+	std::vector<float> m_normals;
 	GLuint vertexBuffer;
+
+	unsigned int 	m_nbFace,
+					m_nbVertices,
+					m_nbTextures,
+					m_nbNormals;
+
+
 	//GLuint colorBuffer;
 
 };

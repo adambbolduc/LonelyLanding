@@ -9,6 +9,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 
 
@@ -31,4 +32,40 @@ std::string util::LoadSource(const char* filename){
 	}
 	return filetext;
 }
+
+vector<string> util::splitStringIntoToken(string line){
+	istringstream line_str(line);
+	string token;
+	vector<string> tokenVector;
+	while(!line_str.eof()){
+		line_str >> token;
+		tokenVector.push_back(token);
+	}
+	return tokenVector;
+}
+
+std::string util::doubleSlash(string s){
+	for(unsigned int i=0 ; i < s.length() ; i++){
+		if( i < (s.length()-1) &&  s[i] == '/'){
+			if(s[i+1] == '/'){
+				s.insert(i+1,"1");
+				i++;
+			}
+		}
+	}
+
+
+	return s;
+}
+
+string util::slash_to_space(std::string s){
+	for(unsigned int i = 0 ; i < s.length() ; i++){
+		if(s[i] == '/')
+			s[i] = ' ';
+	}
+	return s;
+}
+
+
+
 

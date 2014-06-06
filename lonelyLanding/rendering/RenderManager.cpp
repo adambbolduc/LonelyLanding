@@ -12,7 +12,6 @@
 
 
 
-
 bool RenderManager::init(){
 
 	// glew initialization
@@ -48,6 +47,29 @@ bool RenderManager::init(){
 
 void RenderManager::shutdown() {}
 
-void RenderManager::render(Mesh model, Program program){
+void RenderManager::render(const Mesh& model, Program program, const Camera& camera){
 
+	glm::mat4 MVP = camera.getMatrix(); // Remember, matrix multiplication is the other way around
+
+	glUseProgram(program.getID());
+
+	glUniformMatrix4fv(0, 1, GL_FALSE, &MVP[0][0]);
+
+
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, model.getVertexBufferID());
+	glVertexAttribPointer(
+	   0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
+	   3,                  // size
+	   GL_FLOAT,           // type
+	   GL_FALSE,           // normalized?
+	   0,                  // stride
+	   (void*)0            // array buffer offset
+	);
+	for(unsigned int i = 0 ; i < model.getNbFace() ; i++){
+		glDrawArrays(GL_LINE_LOOP, 3*i, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
+	}
+
+	glDisableVertexAttribArray(0);
+	glUseProgram(0);
 }

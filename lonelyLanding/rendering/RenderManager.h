@@ -12,13 +12,16 @@
 
 #include "Mesh.h"
 #include "Program.h"
+#include "Camera.h"
+#include <glm.hpp>
 
 class RenderManager {
 
 public:
 	static bool init();
 	static void shutdown();
-	static void render(Mesh model, Program program);
+	static void render(const Mesh& model, Program program, const Camera& camera);
+	static void bindData();
 
 };
 
