@@ -41,9 +41,9 @@ void Mesh::load(const char* path){
 		if( token[0] == "#" ){continue;} 	// This line is a comment do nothing
 		else if( token[0] == "v" ){			// This line is a vertex coordinate
 			vert_temp.push_back(glm::vec3(
-					atof(token[1].c_str()),
-					atof(token[2].c_str()),
-					atof(token[3].c_str()))
+					atof(token[1].c_str())/20,
+					atof(token[2].c_str())/20,
+					atof(token[3].c_str())/20)
 			);
 
 

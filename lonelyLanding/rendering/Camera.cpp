@@ -6,7 +6,7 @@
  */
 
 #include "Camera.h"
-
+#include <iostream>
 
 Camera::Camera() : m_pos(), m_theta(0),m_phi(0), m_viewMatrix(1.0),m_projection() {}
 
@@ -32,8 +32,8 @@ void Camera::translate(const glm::vec3& displacement){
 }
 
 void Camera::move(const glm::vec3& displacement){
-	translate(glm::vec3(glm::cos(m_phi)*displacement.x - glm::sin(m_phi)*displacement.y ,
-						glm::sin(m_phi)*displacement.x + glm::cos(m_phi)*displacement.y ,
+	translate(glm::vec3(glm::cos(m_theta)*(glm::cos(m_phi)*displacement.x) - glm::sin(m_phi)*displacement.y,
+						glm::cos(m_theta)*(glm::sin(m_phi)*displacement.x) + glm::cos(m_phi)*displacement.y,
 						displacement.z + glm::sin(m_theta)*displacement.x));
 }
 
@@ -41,6 +41,10 @@ void Camera::move(const glm::vec3& displacement){
 void Camera::rotate(float dTheta,float dPhi){
 	m_theta += dTheta;
 	m_phi += dPhi;
+	if(m_theta > M_PI/2-0.001)
+		m_theta = M_PI/2-0.001;
+	if(m_theta < -M_PI/2+0.001)
+		m_theta = -M_PI/2+0.001;
 }
 
 glm::mat4 Camera::getMatrix() const{
