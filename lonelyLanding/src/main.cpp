@@ -99,13 +99,12 @@ int main() {
 	Camera camera;
 	camera.setProjectionMatrix(1.22,800.0/600.0,0.1,100.0);
 
-	GLuint VertexArrayID;
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
 
 	// This will identify our vertex buffer
 	Mesh perso;
 	perso.load("resources/meshes/perso.obj");
+	RenderManager::createVBO(perso);
+	RenderManager::createVAO(perso);
 
 	camera.setPos(glm::vec3(-3,0,0));
 	camera.setOrientation(0,0);

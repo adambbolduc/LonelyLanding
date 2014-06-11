@@ -15,14 +15,13 @@
 Mesh::Mesh() : 	m_vertices(),
 				m_textures(),
 				m_normals(),
-				vertexBuffer(0),
 				m_nbFace(0),
 				m_nbVertices(0),
 				m_nbTextures(0),
 				m_nbNormals(0){}
 
 Mesh::~Mesh(){
-	glDeleteBuffers(1, &vertexBuffer);
+	glDeleteBuffers(3,buffersID);
 }
 
 void Mesh::load(const char* path){
@@ -111,20 +110,29 @@ void Mesh::load(const char* path){
 	m_nbTextures = m_textures.size();
 	m_nbNormals = m_normals.size();
 
+}
 
-	glGenBuffers(1, &vertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, m_vertices.size()*4, m_vertices.data(), GL_STATIC_DRAW);
+void Mesh::setVertexBufferID(unsigned int dataType, GLuint id){
+	buffersID[dataType] = id;
+}
+
+void Mesh::setBufferArrayID(GLuint id){
+	vertexArray = id;
 }
 
 const float* Mesh::getVertPtr() const{
 	return m_vertices.data();
 }
 
-GLuint Mesh::getVertexBufferID() const{
-	return vertexBuffer;
-}
-
 unsigned int Mesh::getNbFace() const{
 	return m_nbFace;
 }
+
+const GLuint* Mesh::getBuffersID() const{
+	return buffersID;
+}
+
+GLuint Mesh::getVAO() const{
+	return vertexArray;
+}
+

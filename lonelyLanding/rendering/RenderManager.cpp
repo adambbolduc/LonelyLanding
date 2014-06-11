@@ -52,12 +52,25 @@ void RenderManager::render(const Mesh& model, Program program, const Camera& cam
 	glm::mat4 MVP = camera.getMatrix(); // Remember, matrix multiplication is the other way around
 
 	glUseProgram(program.getID());
-
 	glUniformMatrix4fv(0, 1, GL_FALSE, &MVP[0][0]);
+	glBindVertexArray(model.getVAO());
+	glDrawArrays(GL_TRIANGLES, 0, model.getNbFace()*3);
+	glUseProgram(0);
+}
 
+void RenderManager::createVBO(Mesh& model){
+	GLuint bufferID[3];
+	glGenBuffers(1,&bufferID[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, bufferID[0]);
+	glBufferData (GL_ARRAY_BUFFER,sizeof (float) * 9 * model.getNbFace(), model.getVertPtr(), GL_STATIC_DRAW);
+	model.setVertexBufferID(0,bufferID[0]);
+}
 
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, model.getVertexBufferID());
+void RenderManager::createVAO(Mesh& model){
+	GLuint vaoID;
+	glGenVertexArrays(1,&vaoID);
+	glBindVertexArray(vaoID);
+	glBindBuffer(GL_ARRAY_BUFFER, model.getBuffersID()[0]);
 	glVertexAttribPointer(
 	   0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
 	   3,                  // size
@@ -66,10 +79,10 @@ void RenderManager::render(const Mesh& model, Program program, const Camera& cam
 	   0,                  // stride
 	   (void*)0            // array buffer offset
 	);
-	for(unsigned int i = 0 ; i < model.getNbFace() ; i++){
-		glDrawArrays(GL_LINE_LOOP, 3*i, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
-	}
-
-	glDisableVertexAttribArray(0);
-	glUseProgram(0);
+	glEnableVertexAttribArray(0);
+	model.setBufferArrayID(vaoID);
 }
+
+
+
+

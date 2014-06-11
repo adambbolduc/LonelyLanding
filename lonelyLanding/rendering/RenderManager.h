@@ -21,7 +21,8 @@ public:
 	static bool init();
 	static void shutdown();
 	static void render(const Mesh& model, Program program, const Camera& camera);
-	static void bindData();
+	static void createVBO(Mesh& model);
+	static void createVAO(Mesh& model);
 
 };
 
