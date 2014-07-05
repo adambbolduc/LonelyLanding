@@ -50,3 +50,9 @@ void Camera::rotate(float dTheta,float dPhi){
 glm::mat4 Camera::getMatrix() const{
 	return m_projection*m_viewMatrix;
 }
+
+void Camera::printCoord() const{
+	std::cout << m_pos.x << "\t" << m_pos.y << "\t" << m_pos.z << std::endl;
+}
+
+

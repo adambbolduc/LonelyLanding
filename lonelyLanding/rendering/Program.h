@@ -27,10 +27,14 @@ public:
 	void bindAttribLocation(GLint index,const std::string& name);
 	void link();
 	GLuint getID() const;
+	void getUniformLocation();
+	int getMVPLocation() const;
+	int getLightLocation() const;
 
 private:
 	GLuint m_id;
 	std::set<GLuint> m_shaders;
+	int MVP_location;
 
 };
 

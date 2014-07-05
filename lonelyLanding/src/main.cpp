@@ -88,13 +88,14 @@ int main() {
 	program.attachShader(vertShader);
 	program.attachShader(fragShader);
 
-	program.bindAttribLocation(0,"gl_Vertex");
-	program.bindAttribLocation(1,"gl_Color");
-	program.bindAttribLocation(2,"gl_ModelViewMatrix");
-	program.bindAttribLocation(6,"gl_ProjectionMatrix");
+	glBindAttribLocation(program.getID(),0,"vertexCoord");
+	glBindAttribLocation(program.getID(),1,"normalCoord");
+
 
 	program.link();
 
+
+	program.getUniformLocation();
 
 	Camera camera;
 	camera.setProjectionMatrix(1.22,800.0/600.0,0.1,100.0);
@@ -102,13 +103,15 @@ int main() {
 
 	// This will identify our vertex buffer
 	Mesh perso;
-	perso.load("resources/meshes/perso.obj");
+	perso.load("resources/meshes/dante_naked.obj");
 	RenderManager::createVBO(perso);
 	RenderManager::createVAO(perso);
 
 	camera.setPos(glm::vec3(-3,0,0));
 	camera.setOrientation(0,0);
 	camera.setViewMatrix();
+
+
 
 	InputEvent* event;
 	// engine loop
@@ -119,6 +122,8 @@ int main() {
 		camera.rotate(dT,dP);
 		camera.setViewMatrix();
 
+
+		//camera.printCoord();
 		glClear(GL_COLOR_BUFFER_BIT  | GL_DEPTH_BUFFER_BIT);
 
 		RenderManager::render(perso,program,camera);
@@ -196,10 +201,6 @@ int main() {
 				}
 			}
 		}
-		x+=dx;
-		y+=dy;
-		z+=dz;
-
 
 		Sleep(1000/60);
 

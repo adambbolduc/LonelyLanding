@@ -11,11 +11,11 @@
 #include <iostream>
 
 
-Program::Program() : m_shaders(){
+Program::Program() : m_shaders(),MVP_location(0){
 	m_id = glCreateProgram();
 }
 
-Program::Program(GLuint programID) : m_id(programID), m_shaders() {}
+Program::Program(GLuint programID) : m_id(programID), m_shaders(), MVP_location(0) {}
 
 Program::~Program(){
 	std::set<GLuint>::iterator it = m_shaders.begin();
@@ -45,5 +45,13 @@ void Program::link(){
 
 GLuint Program::getID() const{
 	return m_id;
-
 }
+
+void Program::getUniformLocation(){
+	MVP_location = glGetUniformLocation(m_id,"MVP");
+}
+
+int Program::getMVPLocation() const{
+	return MVP_location;
+}
+

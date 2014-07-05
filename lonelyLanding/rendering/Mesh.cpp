@@ -15,6 +15,7 @@
 Mesh::Mesh() : 	m_vertices(),
 				m_textures(),
 				m_normals(),
+				vertexArray(0),
 				m_nbFace(0),
 				m_nbVertices(0),
 				m_nbTextures(0),
@@ -40,9 +41,9 @@ void Mesh::load(const char* path){
 		if( token[0] == "#" ){continue;} 	// This line is a comment do nothing
 		else if( token[0] == "v" ){			// This line is a vertex coordinate
 			vert_temp.push_back(glm::vec3(
-					atof(token[1].c_str())/20,
-					atof(token[2].c_str())/20,
-					atof(token[3].c_str())/20)
+					atof(token[1].c_str()),
+					atof(token[2].c_str()),
+					atof(token[3].c_str()))
 			);
 
 
@@ -65,41 +66,42 @@ void Mesh::load(const char* path){
 
 		}
 		else if( token[0] == "f" ){			// This line is a face
+
 			m_vertices.push_back(vert_temp[atoi(token[1].c_str()) - 1].x);
 			m_vertices.push_back(vert_temp[atoi(token[1].c_str()) - 1].y);
 			m_vertices.push_back(vert_temp[atoi(token[1].c_str()) - 1].z);
 
-			m_textures.push_back(vert_temp[atoi(token[2].c_str()) - 1].x);
-			m_textures.push_back(vert_temp[atoi(token[2].c_str()) - 1].y);
-			m_textures.push_back(vert_temp[atoi(token[2].c_str()) - 1].z);
+//			m_textures.push_back(text_temp[atoi(token[2].c_str()) - 1].x);
+//			m_textures.push_back(text_temp[atoi(token[2].c_str()) - 1].y);
+//			m_textures.push_back(text_temp[atoi(token[2].c_str()) - 1].z);
 
-			m_normals.push_back(vert_temp[atoi(token[3].c_str()) - 1].x);
-			m_normals.push_back(vert_temp[atoi(token[3].c_str()) - 1].y);
-			m_normals.push_back(vert_temp[atoi(token[3].c_str()) - 1].z);
+			m_normals.push_back(norm_temp[atoi(token[3].c_str()) - 1].x);
+			m_normals.push_back(norm_temp[atoi(token[3].c_str()) - 1].y);
+			m_normals.push_back(norm_temp[atoi(token[3].c_str()) - 1].z);
 
 			m_vertices.push_back(vert_temp[atoi(token[4].c_str()) - 1].x);
 			m_vertices.push_back(vert_temp[atoi(token[4].c_str()) - 1].y);
 			m_vertices.push_back(vert_temp[atoi(token[4].c_str()) - 1].z);
 
-			m_textures.push_back(vert_temp[atoi(token[5].c_str()) - 1].x);
-			m_textures.push_back(vert_temp[atoi(token[5].c_str()) - 1].y);
-			m_textures.push_back(vert_temp[atoi(token[5].c_str()) - 1].z);
+//			m_textures.push_back(text_temp[atoi(token[5].c_str()) - 1].x);
+//			m_textures.push_back(text_temp[atoi(token[5].c_str()) - 1].y);
+//			m_textures.push_back(text_temp[atoi(token[5].c_str()) - 1].z);
 
-			m_normals.push_back(vert_temp[atoi(token[6].c_str()) - 1].x);
-			m_normals.push_back(vert_temp[atoi(token[6].c_str()) - 1].y);
-			m_normals.push_back(vert_temp[atoi(token[6].c_str()) - 1].z);
+			m_normals.push_back(norm_temp[atoi(token[6].c_str()) - 1].x);
+			m_normals.push_back(norm_temp[atoi(token[6].c_str()) - 1].y);
+			m_normals.push_back(norm_temp[atoi(token[6].c_str()) - 1].z);
 
 			m_vertices.push_back(vert_temp[atoi(token[7].c_str()) - 1].x);
 			m_vertices.push_back(vert_temp[atoi(token[7].c_str()) - 1].y);
 			m_vertices.push_back(vert_temp[atoi(token[7].c_str()) - 1].z);
 
-			m_textures.push_back(vert_temp[atoi(token[8].c_str()) - 1].x);
-			m_textures.push_back(vert_temp[atoi(token[8].c_str()) - 1].y);
-			m_textures.push_back(vert_temp[atoi(token[8].c_str()) - 1].z);
+//			m_textures.push_back(text_temp[atoi(token[8].c_str()) - 1].x);
+//			m_textures.push_back(text_temp[atoi(token[8].c_str()) - 1].y);
+//			m_textures.push_back(text_temp[atoi(token[8].c_str()) - 1].z);
 
-			m_normals.push_back(vert_temp[atoi(token[9].c_str()) - 1].x);
-			m_normals.push_back(vert_temp[atoi(token[9].c_str()) - 1].y);
-			m_normals.push_back(vert_temp[atoi(token[9].c_str()) - 1].z);
+			m_normals.push_back(norm_temp[atoi(token[9].c_str()) - 1].x);
+			m_normals.push_back(norm_temp[atoi(token[9].c_str()) - 1].y);
+			m_normals.push_back(norm_temp[atoi(token[9].c_str()) - 1].z);
 
 		}
 	}
@@ -124,6 +126,10 @@ const float* Mesh::getVertPtr() const{
 	return m_vertices.data();
 }
 
+const float* Mesh::getNormPtr() const{
+	return m_normals.data();
+}
+
 unsigned int Mesh::getNbFace() const{
 	return m_nbFace;
 }
@@ -136,3 +142,8 @@ GLuint Mesh::getVAO() const{
 	return vertexArray;
 }
 
+void Mesh::printNormals() const{
+	for(unsigned int i = 0 ; i < m_nbNormals ; i++){
+		std::cout << m_normals[i] << std::endl;
+	}
+}

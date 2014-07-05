@@ -25,6 +25,8 @@ public:
 	void translate(const glm::vec3& displacement);
 	void move(const glm::vec3& displacement);
 	void rotate(float dTheta, float dPhi);
+
+	void printCoord() const;
 	glm::mat4 getMatrix() const;
 private:
 	//position

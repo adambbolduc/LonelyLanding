@@ -50,9 +50,11 @@ void RenderManager::shutdown() {}
 void RenderManager::render(const Mesh& model, Program program, const Camera& camera){
 
 	glm::mat4 MVP = camera.getMatrix(); // Remember, matrix multiplication is the other way around
-
+	//glm::vec3 light = glm::vec3(0,0,0);
 	glUseProgram(program.getID());
-	glUniformMatrix4fv(0, 1, GL_FALSE, &MVP[0][0]);
+	glUniformMatrix4fv(program.getMVPLocation(), 1, GL_FALSE, &MVP[0][0]);
+	//glUniformMatrix4fv(program.getLightLocation(), 1, GL_FALSE, &light[0]);
+
 	glBindVertexArray(model.getVAO());
 	glDrawArrays(GL_TRIANGLES, 0, model.getNbFace()*3);
 	glUseProgram(0);
@@ -64,6 +66,12 @@ void RenderManager::createVBO(Mesh& model){
 	glBindBuffer(GL_ARRAY_BUFFER, bufferID[0]);
 	glBufferData (GL_ARRAY_BUFFER,sizeof (float) * 9 * model.getNbFace(), model.getVertPtr(), GL_STATIC_DRAW);
 	model.setVertexBufferID(0,bufferID[0]);
+
+	glGenBuffers(1,&bufferID[1]);
+	glBindBuffer(GL_ARRAY_BUFFER, bufferID[1]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof (float) * 9 * model.getNbFace(), model.getNormPtr(), GL_STATIC_DRAW);
+	model.setVertexBufferID(1,bufferID[1]);
+
 }
 
 void RenderManager::createVAO(Mesh& model){
@@ -71,15 +79,25 @@ void RenderManager::createVAO(Mesh& model){
 	glGenVertexArrays(1,&vaoID);
 	glBindVertexArray(vaoID);
 	glBindBuffer(GL_ARRAY_BUFFER, model.getBuffersID()[0]);
-	glVertexAttribPointer(
-	   0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-	   3,                  // size
-	   GL_FLOAT,           // type
-	   GL_FALSE,           // normalized?
-	   0,                  // stride
-	   (void*)0            // array buffer offset
-	);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(
+			0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
+			3,                  // size
+			GL_FLOAT,           // type
+			GL_FALSE,           // normalized?
+			0,                  // stride
+			(void*)0            // array buffer offset
+	);
+	glBindBuffer(GL_ARRAY_BUFFER, model.getBuffersID()[1]);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(
+			1,                  // attribute 1. No particular reason for 0, but must match the layout in the shader.
+			3,                  // size
+			GL_FLOAT,           // type
+			GL_FALSE,           // normalized?
+			0,                  // stride
+			(void*)0            // array buffer offset
+	);
 	model.setBufferArrayID(vaoID);
 }
 

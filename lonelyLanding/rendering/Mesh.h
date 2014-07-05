@@ -23,9 +23,11 @@ public:
 	void setVertexBufferID(unsigned int dataType, GLuint id);
 	void setBufferArrayID(GLuint id);
 	const float* getVertPtr() const;
+	const float* getNormPtr() const;
 	unsigned int getNbFace() const;
 	const GLuint* getBuffersID() const;
 	GLuint getVAO() const;
+	void printNormals() const;
 
 private:
 	std::vector<float> m_vertices;
